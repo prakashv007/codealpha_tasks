@@ -1,21 +1,9 @@
-// ============================================================
-//  StockMarket.java
-//  Manages the list of available stocks.
-//  Provides lookup, display, and a simple price-update helper.
-// ============================================================
-
 import java.util.ArrayList;
 
 public class StockMarket {
-
-    // --- The master list of stocks available to trade ---
     private ArrayList<Stock> stocks;
-
-    // --- Constructor: pre-loads 10 well-known stocks ---
     public StockMarket() {
         stocks = new ArrayList<Stock>();
-
-        // symbol, company, price (USD)
         stocks.add(new Stock("AAPL",  "Apple Inc.",                  189.30));
         stocks.add(new Stock("MSFT",  "Microsoft Corporation",       415.50));
         stocks.add(new Stock("GOOGL", "Alphabet Inc. (Google)",      175.80));
@@ -27,15 +15,8 @@ public class StockMarket {
         stocks.add(new Stock("JPM",   "JPMorgan Chase & Co.",        197.70));
         stocks.add(new Stock("BRK.B", "Berkshire Hathaway Inc.",     384.20));
     }
-
-    // -------------------------------------------------------
-    //  getStocks – returns the full list (for Portfolio use)
-    // -------------------------------------------------------
     public ArrayList<Stock> getStocks() { return stocks; }
 
-    // -------------------------------------------------------
-    //  findStock – returns a Stock by symbol, or null
-    // -------------------------------------------------------
     public Stock findStock(String symbol) {
         for (int i = 0; i < stocks.size(); i++) {
             if (stocks.get(i).getSymbol().equalsIgnoreCase(symbol)) {
@@ -44,10 +25,6 @@ public class StockMarket {
         }
         return null;
     }
-
-    // -------------------------------------------------------
-    //  displayMarket – prints a numbered table of all stocks
-    // -------------------------------------------------------
     public void displayMarket() {
         System.out.println();
         System.out.println("  ============================================================");
@@ -64,19 +41,11 @@ public class StockMarket {
 
         System.out.println("  ============================================================");
     }
-
-    // -------------------------------------------------------
-    //  simulatePriceChange
-    //  Randomly nudges every stock price ±5 % to simulate
-    //  live market movement.  Call from main menu if desired.
-    // -------------------------------------------------------
     public void simulatePriceChange() {
         for (int i = 0; i < stocks.size(); i++) {
             Stock s        = stocks.get(i);
-            // Random change between -5% and +5%
-            double change  = (Math.random() * 10.0) - 5.0;   // -5 .. +5
+            double change  = (Math.random() * 10.0) - 5.0;  
             double newPrice = s.getPrice() * (1 + change / 100.0);
-            // Round to 2 decimal places
             newPrice = Math.round(newPrice * 100.0) / 100.0;
             s.setPrice(newPrice);
         }

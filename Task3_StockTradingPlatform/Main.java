@@ -1,15 +1,3 @@
-// ============================================================
-//  Main.java  –  Entry point for the Stock Trading Platform
-//  CodeAlpha Java Internship | Task 3
-//
-//  Classes used:
-//    Stock        – a tradeable stock (symbol, company, price)
-//    StockMarket  – manages the list of available stocks
-//    Transaction  – records each buy / sell event
-//    Portfolio    – tracks user holdings and computes P&L
-//    User         – the trader (balance, portfolio, history)
-// ============================================================
-
 import java.util.Scanner;
 
 public class Main {
@@ -18,11 +6,9 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        // ---- Initial setup ----
         StockMarket market = new StockMarket();
-        User        user   = new User("Trader", 10_000.00); // $10,000 starting cash
+        User        user   = new User("Trader", 10_000.00); 
 
-        // ---- Welcome Banner ----
         System.out.println();
         System.out.println("  +============================================================+");
         System.out.println("  |          STOCK TRADING PLATFORM  v1.0                     |");
@@ -35,8 +21,6 @@ public class Main {
         int choice = 0;
 
         while (choice != 7) {
-
-            // ---- Main Menu ----
             System.out.println();
             System.out.println("  ============================================================");
             System.out.println("                         MAIN MENU");
@@ -49,30 +33,23 @@ public class Main {
             System.out.println("  6. Refresh Market Prices (simulate live market)");
             System.out.println("  7. Exit");
             System.out.println("  ============================================================");
-
-            // Show quick account summary before prompt
             user.displayAccountSummary();
 
             System.out.println();
             System.out.print("  Enter your choice (1-7): ");
 
-            // ---- Read choice safely ----
             if (!scanner.hasNextInt()) {
                 System.out.println("  [ERROR] Please enter a number between 1 and 7.");
-                scanner.nextLine();  // discard bad input
+                scanner.nextLine();  
                 continue;
             }
             choice = scanner.nextInt();
-            scanner.nextLine();  // consume newline
-
-            // ---- Handle Menu Options ----
+            scanner.nextLine(); 
 
             if (choice == 1) {
-                // --- View Market ---
                 market.displayMarket();
 
             } else if (choice == 2) {
-                // --- Buy Stock ---
                 market.displayMarket();
 
                 System.out.print("  Enter stock symbol to BUY (e.g. AAPL): ");
@@ -102,12 +79,10 @@ public class Main {
                 }
 
             } else if (choice == 3) {
-                // --- Sell Stock ---
                 if (user.getPortfolio().isEmpty()) {
                     System.out.println();
                     System.out.println("  [INFO] You have no stocks to sell. Buy some first!");
                 } else {
-                    // Show current holdings alongside market prices
                     user.getPortfolio().displayPortfolio(market.getStocks());
 
                     System.out.print("  Enter stock symbol to SELL (e.g. TSLA): ");
@@ -138,19 +113,15 @@ public class Main {
                 }
 
             } else if (choice == 4) {
-                // --- View Portfolio ---
                 user.getPortfolio().displayPortfolio(market.getStocks());
 
             } else if (choice == 5) {
-                // --- View Transaction History ---
                 user.displayTransactionHistory();
 
             } else if (choice == 6) {
-                // --- Refresh Market Prices ---
                 market.simulatePriceChange();
 
             } else if (choice == 7) {
-                // --- Exit ---
                 System.out.println();
                 System.out.println("  ============================================================");
                 System.out.println("   Thank you for using the Stock Trading Platform!");

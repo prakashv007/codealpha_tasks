@@ -1,20 +1,12 @@
-// ============================================================
-//  User.java
-//  Represents the trader: holds account balance, a Portfolio,
-//  and a full transaction history.
-// ============================================================
-
 import java.util.ArrayList;
 
 public class User {
 
-    // --- Fields ---
     private String               name;
-    private double               balance;       // Available cash (USD)
-    private Portfolio            portfolio;     // Current stock holdings
-    private ArrayList<Transaction> transactions; // Full trade history
+    private double               balance;      
+    private Portfolio            portfolio;    
+    private ArrayList<Transaction> transactions; 
 
-    // --- Constructor ---
     public User(String name, double initialBalance) {
         this.name         = name;
         this.balance      = initialBalance;
@@ -22,16 +14,9 @@ public class User {
         this.transactions = new ArrayList<Transaction>();
     }
 
-    // --- Getters ---
     public String    getName()        { return name; }
     public double    getBalance()     { return balance; }
     public Portfolio getPortfolio()   { return portfolio; }
-
-    // -------------------------------------------------------
-    //  buyStock
-    //  Deducts cash, updates portfolio, logs transaction.
-    //  Returns false if the user cannot afford the purchase.
-    // -------------------------------------------------------
     public boolean buyStock(Stock stock, int quantity) {
         double totalCost = stock.getPrice() * quantity;
 
@@ -41,14 +26,8 @@ public class User {
                     totalCost, balance);
             return false;
         }
-
-        // Deduct balance
         balance -= totalCost;
-
-        // Update portfolio
         portfolio.addShares(stock.getSymbol(), quantity, stock.getPrice());
-
-        // Record the transaction
         Transaction t = new Transaction(Transaction.BUY,
                 stock.getSymbol(), quantity, stock.getPrice());
         transactions.add(t);
@@ -60,12 +39,6 @@ public class User {
                 totalCost, balance);
         return true;
     }
-
-    // -------------------------------------------------------
-    //  sellStock
-    //  Adds cash, updates portfolio, logs transaction.
-    //  Returns false if the user does not own enough shares.
-    // -------------------------------------------------------
     public boolean sellStock(Stock stock, int quantity) {
         int owned = portfolio.getQuantity(stock.getSymbol());
 
@@ -76,15 +49,9 @@ public class User {
                     owned, stock.getSymbol());
             return false;
         }
-
-        // Remove from portfolio (uses avg cost reduction internally)
         portfolio.removeShares(stock.getSymbol(), quantity);
-
-        // Credit balance
         double totalRevenue = stock.getPrice() * quantity;
         balance += totalRevenue;
-
-        // Record the transaction
         Transaction t = new Transaction(Transaction.SELL,
                 stock.getSymbol(), quantity, stock.getPrice());
         transactions.add(t);
@@ -96,10 +63,6 @@ public class User {
                 totalRevenue, balance);
         return true;
     }
-
-    // -------------------------------------------------------
-    //  displayTransactionHistory – prints the full trade log
-    // -------------------------------------------------------
     public void displayTransactionHistory() {
         System.out.println();
         System.out.println("  ============================================================");
@@ -122,10 +85,6 @@ public class User {
 
         System.out.println("  ============================================================");
     }
-
-    // -------------------------------------------------------
-    //  displayAccountSummary – one-liner cash + portfolio count
-    // -------------------------------------------------------
     public void displayAccountSummary() {
         System.out.println();
         System.out.printf("  Trader   : %s%n", name);
